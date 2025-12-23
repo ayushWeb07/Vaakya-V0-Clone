@@ -15,7 +15,7 @@ export const DummyClient = () => {
     <div>
       <p>{data?.greeting}</p>
 
-      <Button onClick={() => invokeBGMutation.mutate({name: "Hey, I am Ayush"})} disabled={invokeBGMutation.isPending} >{invokeBGMutation.isPending? "Invoking..." : "Invoke"}</Button>
+      <Button onClick={() => invokeBGMutation.mutate({prompt: "Create a simple red themed-hero section"})} disabled={invokeBGMutation.isPending} >{invokeBGMutation.isPending? "Invoking..." : "Invoke"}</Button>
     </div>
   );
 };
