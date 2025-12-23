@@ -2,20 +2,25 @@
 import { Button } from "@/components/ui/button";
 import { useTRPC } from "@/modules/trpc/client";
 import { useMutation, useSuspenseQuery } from "@tanstack/react-query";
-import React from "react";
+import React, { useState } from "react";
 
 export const DummyClient = () => {
+
+  const [message, setMessage] = useState<string>("")
+
   const trpc = useTRPC();
 
-  const { data } = useSuspenseQuery(trpc.hello.queryOptions({ text: "Ayush" }));
+  const { data } = useSuspenseQuery(trpc.messages.getMany.queryOptions());
 
-  const invokeBGMutation = useMutation(trpc.invokeBG.mutationOptions({}));
+  const invokeBGMutation = useMutation(trpc.messages.create.mutationOptions({}));
 
   return (
     <div>
-      <p>{data?.greeting}</p>
+      <p>{JSON.stringify(data)}</p>
 
-      <Button onClick={() => invokeBGMutation.mutate({prompt: "Create a simple red themed-hero section"})} disabled={invokeBGMutation.isPending} >{invokeBGMutation.isPending? "Invoking..." : "Invoke"}</Button>
+      <input type="text" value={message} onChange={(e) => setMessage(e.target.value)} placeholder="Enter message" />
+
+      <Button onClick={() => invokeBGMutation.mutate({text: message})} disabled={invokeBGMutation.isPending} >{invokeBGMutation.isPending? "Invoking..." : "Invoke"}</Button>
     </div>
   );
 };

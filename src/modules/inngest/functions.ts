@@ -1,10 +1,11 @@
 import { inngest } from "./client";
 import { Sandbox } from "@e2b/code-interpreter";
 import { createCodingNetwork } from "../ai-agent/agent";
+import { prisma } from "@/lib/db";
 
-export const helloWorld = inngest.createFunction(
-  { id: "hello-world" },
-  { event: "test/hello.world" },
+export const invokeAiAgent = inngest.createFunction(
+  { id: "invoke-ai-agent" },
+  { event: "ai-agent/invoke" },
   async ({ event, step }) => {
     // 1: create sandbox and get id
     const sandboxId = await step.run("get-sandbox-id", async () => {
@@ -33,12 +34,55 @@ export const helloWorld = inngest.createFunction(
       return `http://${host}`;
     });
 
+    // 4: create a new message in the DB
+    const title = "Next.js Fragment";
+    const summary = networkResult.state.data?.summary;
+    const files = networkResult.state.data?.files;
 
+    const isError = !summary || Object.keys(files || {}).length === 0;
+
+    await step.run("save-result-in-db", async () => {
+      let createdMessage = null;
+
+      if (isError) {
+        // create the error message
+        createdMessage = await prisma.message.create({
+          data: {
+            content:
+              "Something went wrong :(. Check the inngest logs and try again!",
+            role: "ASSISTANT",
+            type: "ERROR",
+          },
+        });
+      } else {
+        // create the result message
+        createdMessage = await prisma.message.create({
+          data: {
+            content: summary,
+            role: "ASSISTANT",
+            type: "RESULT",
+
+            fragment: {
+              create: {
+                title,
+                sandboxUrl,
+                sandboxFiles: files,
+              },
+            },
+          },
+        });
+      }
+
+      return createdMessage;
+    });
+
+    // finalization
     return {
       sandboxId,
       sandboxUrl,
-      summary: networkResult.state.data?.summary,
-      files: networkResult.state.data?.files,
+      title,
+      summary,
+      sandboxFiles: files,
     };
   }
 );
