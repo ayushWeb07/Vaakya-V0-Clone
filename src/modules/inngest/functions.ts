@@ -18,6 +18,7 @@ export const invokeAiAgent = inngest.createFunction(
 
     // 2: run ai agent
     const { prompt } = event.data;
+    const { projectId } = event.data;
 
     const codingNetwork = createCodingNetwork(sandboxId);
     const networkResult = await codingNetwork.run(prompt);
@@ -52,6 +53,7 @@ export const invokeAiAgent = inngest.createFunction(
               "Something went wrong :(. Check the inngest logs and try again!",
             role: "ASSISTANT",
             type: "ERROR",
+            projectId,
           },
         });
       } else {
@@ -61,6 +63,7 @@ export const invokeAiAgent = inngest.createFunction(
             content: summary,
             role: "ASSISTANT",
             type: "RESULT",
+            projectId,
 
             fragment: {
               create: {

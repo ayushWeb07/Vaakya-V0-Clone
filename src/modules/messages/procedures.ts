@@ -5,30 +5,31 @@ import { inngest } from "../inngest/client";
 
 // trpc router for handling messages
 const messageRouter = createTRPCRouter({
-
+  // get all the messages
+  getMany: baseProcedure.query(async () => {
     // get all the messages
-    getMany: baseProcedure
-    .query(async () => {
+    const messages = await prisma.message.findMany({
+      orderBy: {
+        updatedAt: "desc",
+      },
+      include: {
+        fragment: true,
+      },
+    });
 
-        // get all the messages
-        const messages = await prisma.message.findMany({
-            orderBy: {
-                updatedAt: "desc"
-            },
-            include: {
-                fragment: true
-            }
-        })
-
-        return messages
-
-    }),
+    return messages;
+  }),
 
   // create message
   create: baseProcedure
     .input(
       z.object({
-        text: z.string().min(1),
+        text: z.string().min(1, { message: "Message is required" }).max(10000, {
+          message:
+            "Message is too long... Atmost, it should have 10000 characters",
+        }),
+
+        projectId: z.string().min(1, { message: "Project ID is required" }),
       })
     )
     .mutation(async ({ input }) => {
@@ -38,6 +39,7 @@ const messageRouter = createTRPCRouter({
           content: input?.text,
           role: "USER",
           type: "RESULT",
+          projectId: input?.projectId,
         },
       });
 
@@ -46,6 +48,7 @@ const messageRouter = createTRPCRouter({
         name: "ai-agent/invoke",
         data: {
           prompt: input?.text,
+          projectId: input?.projectId,
         },
       });
 
@@ -53,5 +56,4 @@ const messageRouter = createTRPCRouter({
     }),
 });
 
-
-export {messageRouter}
+export { messageRouter };

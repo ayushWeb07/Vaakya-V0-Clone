@@ -10,7 +10,7 @@ export default function Home() {
   const queryClient= getQueryClient()
 
   void queryClient.prefetchQuery(
-    trpc.hello.queryOptions({text: "Ayush"})
+    trpc.messages.getMany.queryOptions()
   )
 
 

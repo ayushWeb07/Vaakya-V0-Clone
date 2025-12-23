@@ -12,7 +12,7 @@ export const DummyClient = () => {
 
   const { data } = useSuspenseQuery(trpc.messages.getMany.queryOptions());
 
-  const invokeBGMutation = useMutation(trpc.messages.create.mutationOptions({}));
+  const invokeBGMutation = useMutation(trpc.projects.create.mutationOptions({}));
 
   return (
     <div>
