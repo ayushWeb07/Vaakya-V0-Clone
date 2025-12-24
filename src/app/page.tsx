@@ -7,18 +7,20 @@ import { DummyClient } from "./dummy-client";
 
 export default function Home() {
 
-  const queryClient= getQueryClient()
+  // const queryClient= getQueryClient()
 
-  void queryClient.prefetchQuery(
-    trpc.messages.getMany.queryOptions()
-  )
+  // void queryClient.prefetchQuery(
+  //   trpc.messages.getMany.queryOptions()
+  // )
 
 
   return (
-    <HydrationBoundary state={dehydrate(queryClient)} >
-      <Suspense fallback={<p>Loading...</p>}>
-        <DummyClient />
-      </Suspense>
-    </HydrationBoundary>
+    // <HydrationBoundary state={dehydrate(queryClient)} >
+    //   <Suspense fallback={<p>Loading...</p>}>
+    //     <DummyClient />
+    //   </Suspense>
+    // </HydrationBoundary>
+
+    <h1>Homepage</h1>
   );
 }
