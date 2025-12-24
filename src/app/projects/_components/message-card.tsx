@@ -42,11 +42,11 @@ interface Props {
 const MessageCard = ({
   message,
   isActiveFragment,
-  onFragmentClick,
+  setActiveFragment,
 }: {
   message: Props;
   isActiveFragment: boolean;
-  onFragmentClick: (fragment: Fragment) => void;
+  setActiveFragment: React.Dispatch<React.SetStateAction<Fragment | null>>;
 }) => {
   return (
     <>
@@ -63,7 +63,7 @@ const MessageCard = ({
             </TooltipTrigger>
 
             <TooltipContent
-              className="bg-foreground px-3 py-1 rounded-md transition-all duration-300 animate-in fade-in-0 zoom-in-95
+              className="bg-foreground px-3 py-1 rounded-lg transition-all duration-300 animate-in fade-in-0 zoom-in-95
                 data-[state=closed]:animate-out
                 data-[state=closed]:fade-out-0
                 data-[state=closed]:zoom-out-95
@@ -96,7 +96,7 @@ const MessageCard = ({
                   <div className="pr-25">
                     <button
                       onClick={() =>
-                        onFragmentClick(message?.fragment as Fragment)
+                        setActiveFragment(message?.fragment as Fragment)
                       }
                       className={cn(
                         "border-2 border-border rounded-lg bg-popover p-3 text-neutral-300 text-md font-medium flex justify-start items-start gap-3 hover:bg-secondary transition-all duration-300 cursor-pointer",
@@ -140,7 +140,7 @@ const MessageCard = ({
                   </TooltipTrigger>
 
                   <TooltipContent
-                    className="bg-foreground px-3 py-1 rounded-md transition-all duration-300 animate-in fade-in-0 zoom-in-95
+                    className="bg-foreground px-3 py-1 rounded-lg transition-all duration-300 animate-in fade-in-0 zoom-in-95
                 data-[state=closed]:animate-out
                 data-[state=closed]:fade-out-0
                 data-[state=closed]:zoom-out-95
@@ -158,7 +158,7 @@ const MessageCard = ({
                   </TooltipTrigger>
 
                   <TooltipContent
-                    className="bg-foreground px-3 py-1 rounded-md transition-all duration-300 animate-in fade-in-0 zoom-in-95
+                    className="bg-foreground px-3 py-1 rounded-lg transition-all duration-300 animate-in fade-in-0 zoom-in-95
                 data-[state=closed]:animate-out
                 data-[state=closed]:fade-out-0
                 data-[state=closed]:zoom-out-95
@@ -176,7 +176,7 @@ const MessageCard = ({
                   </TooltipTrigger>
 
                   <TooltipContent
-                    className="bg-foreground px-3 py-1 rounded-md transition-all duration-300 animate-in fade-in-0 zoom-in-95
+                    className="bg-foreground px-3 py-1 rounded-lg transition-all duration-300 animate-in fade-in-0 zoom-in-95
                 data-[state=closed]:animate-out
                 data-[state=closed]:fade-out-0
                 data-[state=closed]:zoom-out-95
@@ -227,7 +227,7 @@ const MessageCard = ({
                   </TooltipTrigger>
 
                   <TooltipContent
-                    className="bg-foreground px-3 py-1 rounded-md transition-all duration-300 animate-in fade-in-0 zoom-in-95
+                    className="bg-foreground px-3 py-1 rounded-lg transition-all duration-300 animate-in fade-in-0 zoom-in-95
                 data-[state=closed]:animate-out
                 data-[state=closed]:fade-out-0
                 data-[state=closed]:zoom-out-95
