@@ -5,12 +5,24 @@ import { inngest } from "../inngest/client";
 
 // trpc router for handling messages
 const messageRouter = createTRPCRouter({
-  // get all the messages
-  getMany: baseProcedure.query(async () => {
-    // get all the messages
+
+  // get all the messages of a specfic project
+  getMany: baseProcedure
+  .input(
+    z.object({
+        projectId: z.string().min(1, { message: "Project ID is required" }),
+
+    })
+  )
+  .query(async ({input}) => {
+
+    // get the messages
     const messages = await prisma.message.findMany({
+      where: {
+        projectId: input?.projectId
+      },
       orderBy: {
-        updatedAt: "desc",
+        updatedAt: "asc",
       },
       include: {
         fragment: true,

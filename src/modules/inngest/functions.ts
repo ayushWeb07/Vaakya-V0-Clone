@@ -50,7 +50,7 @@ export const invokeAiAgent = inngest.createFunction(
         createdMessage = await prisma.message.create({
           data: {
             content:
-              "Something went wrong :(. Check the inngest logs and try again!",
+              "Something went wrong. Please try again later!",
             role: "ASSISTANT",
             type: "ERROR",
             projectId,

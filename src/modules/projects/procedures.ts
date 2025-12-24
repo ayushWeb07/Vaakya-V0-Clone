@@ -3,10 +3,32 @@ import { baseProcedure, createTRPCRouter } from "../trpc/init";
 import { prisma } from "@/lib/db";
 import { inngest } from "../inngest/client";
 import { generateSlug } from "random-word-slugs";
-
+import { TRPCError } from "@trpc/server";
 
 // trpc router for handling projects
 const projectsRouter = createTRPCRouter({
+  // get single project
+  getOne: baseProcedure
+    .input(
+      z.object({
+        id: z.string().min(1, { message: "Project ID is required" }),
+      })
+    )
+    .query(async ({ input }) => {
+
+      // 1: find project in the DB
+      const project = await prisma.project.findUnique({
+        where: {
+          id: input?.id
+        }
+      });
+
+      if(!project) {
+        throw new TRPCError({code: "NOT_FOUND", message: "Project doesn't exist"})
+      }
+
+      return project;
+    }),
 
   // create project
   create: baseProcedure
@@ -22,7 +44,7 @@ const projectsRouter = createTRPCRouter({
       // 1: create project in the db
       const createdProject = await prisma.project.create({
         data: {
-          name: generateSlug(4, {format: "kebab"}),
+          name: generateSlug(4, { format: "kebab" }),
 
           messages: {
             create: [
@@ -41,7 +63,7 @@ const projectsRouter = createTRPCRouter({
         name: "ai-agent/invoke",
         data: {
           prompt: input?.text,
-          projectId: createdProject?.id
+          projectId: createdProject?.id,
         },
       });
 
