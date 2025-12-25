@@ -9,7 +9,7 @@ import {
   Lightbulb,
   Wand2,
   CheckCircle2,
-  Loader2,
+  Loader,
 } from "lucide-react";
 
 type Step = {
@@ -23,7 +23,7 @@ const STEPS: Step[] = [
   { text: "Analyzing relevant context", icon: Sparkles },
   { text: "Reasoning through solutions", icon: Lightbulb },
   { text: "Crafting a thoughtful response", icon: Wand2 },
-  { text: "Refining the output", icon: Loader2 },
+  { text: "Refining the output", icon: Loader },
   { text: "Double-checking for accuracy", icon: CheckCircle2 },
 ];
 
