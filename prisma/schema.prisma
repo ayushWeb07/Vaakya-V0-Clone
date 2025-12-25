@@ -28,6 +28,12 @@ enum MessageType {
   ERROR
 }
 
+enum IS_MESSAGE_HELPFUL {
+  DEFAULT
+  HELPFUL
+  NOT_HELPFUL
+}
+
 // message schema
 model Message {
   id      String      @id @default(uuid())
@@ -51,6 +57,10 @@ model Fragment {
   title        String
   sandboxUrl   String
   sandboxFiles Json
+
+  isHelpful IS_MESSAGE_HELPFUL @default(DEFAULT)
+  creditsSpent Int @default(0)
+  workedFor String @default("")
 
   messageId String  @unique
   message   Message @relation(fields: [messageId], references: [id], onDelete: Cascade)
