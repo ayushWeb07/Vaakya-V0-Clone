@@ -15,16 +15,22 @@ const projectsRouter = createTRPCRouter({
       })
     )
     .query(async ({ input }) => {
-
       // 1: find project in the DB
       const project = await prisma.project.findUnique({
         where: {
-          id: input?.id
-        }
+          id: input?.id,
+        },
+
+        include: {
+          messages: true,
+        },
       });
 
-      if(!project) {
-        throw new TRPCError({code: "NOT_FOUND", message: "Project doesn't exist"})
+      if (!project) {
+        throw new TRPCError({
+          code: "NOT_FOUND",
+          message: "Project doesn't exist",
+        });
       }
 
       return project;
@@ -68,6 +74,62 @@ const projectsRouter = createTRPCRouter({
       });
 
       return createdProject;
+    }),
+
+  // delete project
+  delete: baseProcedure
+    .input(
+      z.object({
+        id: z.string().min(1, { message: "Project ID is required" }),
+      })
+    )
+    .mutation(async ({ input }) => {
+      // 1: delete project in the DB
+      const project = await prisma.project.delete({
+        where: {
+          id: input?.id,
+        },
+      });
+
+      if (!project) {
+        throw new TRPCError({
+          code: "NOT_FOUND",
+          message: "Project doesn't exist",
+        });
+      }
+
+      return project;
+    }),
+
+
+
+  // change project name
+  changeProjectName: baseProcedure
+    .input(
+      z.object({
+        id: z.string().min(1, { message: "Project ID is required" }),
+        name: z.string().min(5, {message: "Project name must have atleast 5 characters" }).max(100, {message: "Project name must have atmost 100 characters" })
+      })
+    )
+    .mutation(async ({ input }) => {
+      // 1: update project in the DB
+      const project = await prisma.project.update({
+        where: {
+          id: input?.id,
+        },
+        data: {
+          name: input?.name
+        }
+      });
+
+      if (!project) {
+        throw new TRPCError({
+          code: "NOT_FOUND",
+          message: "Project doesn't exist",
+        });
+      }
+
+      return project;
     }),
 });
 

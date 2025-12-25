@@ -2,6 +2,7 @@ import { inngest } from "./client";
 import { Sandbox } from "@e2b/code-interpreter";
 import { createCodingNetwork } from "../ai-agent/agent";
 import { prisma } from "@/lib/db";
+import { getTimeWorkedFor } from "./utils";
 
 export const invokeAiAgent = inngest.createFunction(
   { id: "invoke-ai-agent" },
@@ -49,14 +50,16 @@ export const invokeAiAgent = inngest.createFunction(
         // create the error message
         createdMessage = await prisma.message.create({
           data: {
-            content:
-              "Something went wrong. Please try again later!",
+            content: "Something went wrong. Please try again later!",
             role: "ASSISTANT",
             type: "ERROR",
             projectId,
           },
         });
       } else {
+        // get the time worked for
+        const timeWorkedFor = await getTimeWorkedFor(projectId);
+
         // create the result message
         createdMessage = await prisma.message.create({
           data: {
@@ -70,6 +73,8 @@ export const invokeAiAgent = inngest.createFunction(
                 title,
                 sandboxUrl,
                 sandboxFiles: files,
+                creditsSpent: Math.floor(Math.random() * (15 - 5 + 1)) + 5, // !ADD PROPER CREDIT SYSTEM
+                workedFor: timeWorkedFor,
               },
             },
           },

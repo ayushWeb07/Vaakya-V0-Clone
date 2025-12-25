@@ -4,7 +4,7 @@ import { prisma } from "@/lib/db";
 import { inngest } from "../inngest/client";
 
 // trpc router for handling messages
-const messageRouter = createTRPCRouter({
+const messagesRouter = createTRPCRouter({
 
   // get all the messages of a specfic project
   getMany: baseProcedure
@@ -68,4 +68,4 @@ const messageRouter = createTRPCRouter({
     }),
 });
 
-export { messageRouter };
+export { messagesRouter };

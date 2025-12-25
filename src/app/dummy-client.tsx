@@ -10,13 +10,10 @@ export const DummyClient = () => {
 
   const trpc = useTRPC();
 
-  const { data } = useSuspenseQuery(trpc.messages.getMany.queryOptions());
-
   const invokeBGMutation = useMutation(trpc.projects.create.mutationOptions({}));
 
   return (
     <div>
-      <p>{JSON.stringify(data)}</p>
 
       <input type="text" value={message} onChange={(e) => setMessage(e.target.value)} placeholder="Enter message" />
 
