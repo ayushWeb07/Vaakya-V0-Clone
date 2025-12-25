@@ -6,7 +6,7 @@ import {
 } from "@/components/ui/resizable";
 import { useTRPC } from "@/modules/trpc/client";
 import { useSuspenseQuery } from "@tanstack/react-query";
-import React, { Suspense, useState } from "react";
+import React, { RefObject, Suspense, useRef, useState } from "react";
 import { maxSize } from "zod";
 import MessagesContainer from "./messages-container";
 import { Skeleton } from "@/components/ui/skeleton";
@@ -14,6 +14,7 @@ import { Fragment } from "@/generated/prisma/client";
 import ProjectHeader from "./project-header";
 import SandBoxView from "./sandbox-view";
 import SandBoxLoading from "./sandbox-loading";
+import { ImperativePanelHandle } from "react-resizable-panels";
 
 interface Props {
   projectId: string;
@@ -24,10 +25,7 @@ const ProjectView = ({ projectId }: Props) => {
 
   const [activeFragment, setActiveFragment] = useState<Fragment | null>(null);
 
-  // 1: fetch the single project
-  // const { data: project } = useSuspenseQuery(
-  //   trpc.projects.getOne.queryOptions({ id: projectId })
-  // );
+  const messagesPanelRef = useRef<ImperativePanelHandle>(null)
 
   return (
     <div className="h-screen">
@@ -35,9 +33,11 @@ const ProjectView = ({ projectId }: Props) => {
         {/* messages here */}
         <ResizablePanel
           defaultSize={30}
-          minSize={20}
-          maxSize={50}
-          className="flex flex-col justify-start items-start"
+          minSize={0}
+          collapsedSize={0}
+          className="flex flex-col justify-start items-start border-r-2 border-border"
+          collapsible
+          ref={messagesPanelRef}
         >
           {/* project header */}
           <Suspense
@@ -66,12 +66,12 @@ const ProjectView = ({ projectId }: Props) => {
           </Suspense>
         </ResizablePanel>
 
-        <ResizableHandle withHandle />
+        {/* <ResizableHandle withHandle /> */}
 
         {/* sandbox view here */}
-        <ResizablePanel defaultSize={70} maxSize={80} minSize={50}>
+        <ResizablePanel defaultSize={70} maxSize={100} >
           {activeFragment ? (
-            <SandBoxView activeFragment={activeFragment} />
+            <SandBoxView messagesPanelRef={messagesPanelRef as RefObject<ImperativePanelHandle>} activeFragment={activeFragment} />
           ) : (
             <SandBoxLoading />
           )}

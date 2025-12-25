@@ -3,7 +3,6 @@
 
 @custom-variant dark (&:is(.dark *));
 
-
 :root {
   --background: #fcfcfc;
   --foreground: #000000;
@@ -165,7 +164,6 @@
   --shadow-2xl: var(--shadow-2xl);
 }
 
-
 @layer base {
   * {
     margin: 0;
@@ -174,7 +172,6 @@
     scroll-behavior: smooth;
   }
 }
-
 
 @keyframes blink {
 
@@ -186,5 +183,14 @@
 
   40% {
     opacity: 1;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground;
   }
 }
