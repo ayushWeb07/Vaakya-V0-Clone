@@ -30,17 +30,29 @@ const MessagesContainer = ({
   // create a simple ref for scrolling to the bottom of the messages
   const bottomMessagesScrollRef = useRef<HTMLDivElement>(null);
 
-  useEffect(() => {
-    // get the latest ai message and set its fragment (if present) as the active fragment
-    const lastAiMessage = messages.findLast(
-      (message) => message?.role === "ASSISTANT" && message?.fragment
-    );
+  // useEffect(() => {
+  //   // get the latest ai message and set its fragment (if present) as the active fragment
+  //   const lastAiMessage = messages.findLast(
+  //     (message) => message?.role === "ASSISTANT" && message?.fragment
+  //   );
 
-    setActiveFragment(lastAiMessage?.fragment as Fragment);
-  }, [messages]);
+  //   setActiveFragment(lastAiMessage?.fragment as Fragment);
+  // }, [messages]);
 
-  // scroll to the messages end only when there's a change in the messages list
+  // run when there's a change in the messages list
   useEffect(() => {
+    // last message is by user means -> ai is generating the response currently
+    if (messages[messages?.length - 1]?.role === "USER") {
+      setActiveFragment(null);
+    } else {
+      // get the latest ai message and set its fragment (if present) as the active fragment
+      const lastAiMessage = messages.findLast(
+        (message) => message?.role === "ASSISTANT" && message?.fragment
+      );
+      
+      setActiveFragment(lastAiMessage?.fragment as Fragment);
+    }
+    
     // scroll to the bottom of the messages
     bottomMessagesScrollRef.current?.scrollIntoView();
   }, [messages?.length]);
@@ -53,7 +65,6 @@ const MessagesContainer = ({
         </div>
       ) : (
         <>
-
           {/* show an bg overlay */}
           <div className="relative">
             {/* Dec 21 at at 01:00 am */}
@@ -89,7 +100,10 @@ const MessagesContainer = ({
             {/* message input at bottom */}
             <div className="pb-4 relative">
               <div className="absolute h-10 -top-10 left-0 right-0 w-full bg-linear-to-b from-transparent to-black pointer-events-none"></div>
-              <AddMessageForm projectId={projectId} />
+              <AddMessageForm
+                projectId={projectId}
+                setActiveFragment={setActiveFragment}
+              />
             </div>
           </div>
         </>

@@ -12,6 +12,8 @@ import MessagesContainer from "./messages-container";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Fragment } from "@/generated/prisma/client";
 import ProjectHeader from "./project-header";
+import SandBoxView from "./sandbox-view";
+import SandBoxLoading from "./sandbox-loading";
 
 interface Props {
   projectId: string;
@@ -66,8 +68,13 @@ const ProjectView = ({ projectId }: Props) => {
 
         <ResizableHandle withHandle />
 
+        {/* sandbox view here */}
         <ResizablePanel defaultSize={70} maxSize={80} minSize={50}>
-          <p>Project yeha display</p>
+          {activeFragment ? (
+            <SandBoxView activeFragment={activeFragment} />
+          ) : (
+            <SandBoxLoading />
+          )}
         </ResizablePanel>
       </ResizablePanelGroup>
     </div>

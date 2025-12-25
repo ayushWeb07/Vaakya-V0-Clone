@@ -84,13 +84,14 @@ const ProjectHeader = ({ projectId }: Props) => {
     <>
       {/* the dropdown menu at the top for showing menu links */}
       <DropdownMenu>
-        <div className="w-full bg-popover py-3 px-9 border-b-2 border-border shrink-0">
+        <div className="w-full h-[7vh] bg-popover py-3 px-9 border-b-2 border-border shrink-0 flex flex-col justify-center items-start">
           <DropdownMenuTrigger asChild>
             <span className="text-neutral-300 text-md font-medium inline-flex gap-2 cursor-pointer justify-start items-center">
               {project?.name} <ChevronDown size={25} />
             </span>
           </DropdownMenuTrigger>
         </div>
+
         <DropdownMenuContent
           className="min-w-72 bg-card border-2 border-border rounded-lg p-3 text-neutral-300 text-sm font-medium outline-0 flex flex-col gap-3"
           align="start"

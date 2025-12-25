@@ -17,9 +17,12 @@ import { ArrowUp } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Spinner } from "@/components/ui/spinner";
 import { toast } from "sonner";
+import { Fragment } from "@/generated/prisma/client";
 
 interface Props {
   projectId: string;
+    setActiveFragment: React.Dispatch<React.SetStateAction<Fragment | null>>;
+  
 }
 
 const formSchema = z.object({
@@ -28,7 +31,7 @@ const formSchema = z.object({
   }),
 });
 
-const AddMessageForm = ({ projectId }: Props) => {
+const AddMessageForm = ({ projectId, setActiveFragment }: Props) => {
   // 1. Define your form.
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -51,6 +54,9 @@ const AddMessageForm = ({ projectId }: Props) => {
         queryClient.invalidateQueries(
           trpc.messages.getMany.queryOptions({ projectId })
         );
+
+        // 3: set active fragment to null
+        setActiveFragment(null)
       },
 
       onError: (data) => {
