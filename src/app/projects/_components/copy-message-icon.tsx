@@ -8,7 +8,13 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 
-export const CopyMessageIcon = ({ message }: { message: string }) => {
+// ts interface
+interface Props {
+  message: string;
+  toolTipText?: string
+}
+
+export const CopyMessageIcon = ({ message, toolTipText }: Props) => {
   const [copied, setCopied] = useState(false);
 
   const handleCopyToClipboard = async (text: string) => {
@@ -37,7 +43,7 @@ export const CopyMessageIcon = ({ message }: { message: string }) => {
       </TooltipTrigger>
 
       <TooltipContent className="bg-foreground px-3 py-1 rounded-lg text-xs font-medium">
-        {copied ? "Copied!" : "Copy message"}
+        {copied ? "Copied!" : `${toolTipText ?? "Copy message" }`}
       </TooltipContent>
     </Tooltip>
   );

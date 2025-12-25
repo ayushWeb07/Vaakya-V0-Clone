@@ -189,7 +189,7 @@ const MessageCard = ({
                 data-[state=closed]:zoom-out-95
                 data-[side=top]:slide-in-from-bottom-1 z-50"
                       >
-                        <p className="text-shadow-neutral-800 font-medium text-xs">
+                        <p className="text-neutral-800 font-medium text-xs">
                           Helpful
                         </p>
                       </TooltipContent>
@@ -217,7 +217,7 @@ const MessageCard = ({
                 data-[state=closed]:zoom-out-95
                 data-[side=top]:slide-in-from-bottom-1 z-50"
                       >
-                        <p className="text-shadow-neutral-800 font-medium text-xs">
+                        <p className="text-neutral-800 font-medium text-xs">
                           Not helpful
                         </p>
                       </TooltipContent>
