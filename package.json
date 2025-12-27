@@ -48,6 +48,7 @@
     "random-word-slugs": "^0.1.7",
     "react": "19.2.3",
     "react-dom": "19.2.3",
+    "react-error-boundary": "^6.0.0",
     "react-hook-form": "^7.69.0",
     "react-resizable-panels": "v2.1.7",
     "react-textarea-autosize": "^8.5.9",

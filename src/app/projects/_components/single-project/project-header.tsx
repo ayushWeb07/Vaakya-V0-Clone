@@ -30,15 +30,16 @@ import { toast } from "sonner";
 import ChangeProjectName from "./change-project-name";
 import SettingsDialog from "./settings-dialog";
 import { Fragment } from "@/generated/prisma/client";
+import { TRPCClientError } from "@trpc/client";
 
 interface Props {
   projectId: string;
-    activeFragment: Fragment | null;
-  
+  activeFragment: Fragment | null;
 }
 
-const ProjectHeader = ({ projectId, activeFragment}: Props) => {
+const ProjectHeader = ({ projectId, activeFragment }: Props) => {
   const trpc = useTRPC();
+  const router = useRouter();
 
   const [open, setOpen] = useState<boolean>(false);
   const [changeProjectNameDialogOpen, setChangeProjectNameDialogOpen] =
@@ -49,7 +50,6 @@ const ProjectHeader = ({ projectId, activeFragment}: Props) => {
     trpc.projects.getOne.queryOptions({ id: projectId })
   );
 
-  const router = useRouter();
 
   // handle key bindings
   useEffect(() => {
@@ -134,7 +134,10 @@ const ProjectHeader = ({ projectId, activeFragment}: Props) => {
             </DropdownMenuItem>
 
             {/* preview */}
-            <DropdownMenuItem onClick={openSandboxUrlInNewTab} className="cursor-pointer">
+            <DropdownMenuItem
+              onClick={openSandboxUrlInNewTab}
+              className="cursor-pointer"
+            >
               <p className="inline-flex justify-start items-center gap-2">
                 <MoveUpRight />
                 Preview

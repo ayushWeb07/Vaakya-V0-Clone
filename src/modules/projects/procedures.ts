@@ -4,6 +4,7 @@ import { prisma } from "@/lib/db";
 import { inngest } from "../inngest/client";
 import { generateSlug } from "random-word-slugs";
 import { TRPCError } from "@trpc/server";
+import { redirect } from "next/navigation";
 
 // trpc router for handling projects
 const projectsRouter = createTRPCRouter({
@@ -43,6 +44,7 @@ const projectsRouter = createTRPCRouter({
           code: "NOT_FOUND",
           message: "Project doesn't exist",
         });
+
       }
 
       return project;

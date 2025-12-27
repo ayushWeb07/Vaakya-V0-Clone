@@ -30,7 +30,8 @@ const ProjectView = ({ projectId }: Props) => {
   return (
     <div className="h-screen">
       <ResizablePanelGroup direction="horizontal">
-        {/* messages here */}
+
+        {/* project header + messages here */}
         <ResizablePanel
           defaultSize={30}
           minSize={0}
