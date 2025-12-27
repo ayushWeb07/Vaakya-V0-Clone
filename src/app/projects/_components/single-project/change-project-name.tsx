@@ -12,7 +12,6 @@ import {
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import styles from "./styles.module.css";
 import { Button } from "@/components/ui/button";
 import { Project } from "@/generated/prisma/client";
 import { useMutation, useQueryClient } from "@tanstack/react-query";

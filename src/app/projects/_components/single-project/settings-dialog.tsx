@@ -11,7 +11,7 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 
-import styles from "./styles.module.css";
+import styles from "@/app/projects/_components/styles.module.css";
 import { Button } from "@/components/ui/button";
 import { Message, Project } from "@/generated/prisma/client";
 import Link from "next/link";

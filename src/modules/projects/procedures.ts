@@ -7,6 +7,18 @@ import { TRPCError } from "@trpc/server";
 
 // trpc router for handling projects
 const projectsRouter = createTRPCRouter({
+  // get all projects
+  getMany: baseProcedure.query(async () => {
+    // 1: find all projects in the DB
+    const projects = await prisma.project.findMany({
+      include: {
+        messages: true,
+      },
+    });
+
+    return projects;
+  }),
+
   // get single project
   getOne: baseProcedure
     .input(
@@ -101,14 +113,17 @@ const projectsRouter = createTRPCRouter({
       return project;
     }),
 
-
-
   // change project name
   changeProjectName: baseProcedure
     .input(
       z.object({
         id: z.string().min(1, { message: "Project ID is required" }),
-        name: z.string().min(5, {message: "Project name must have atleast 5 characters" }).max(100, {message: "Project name must have atmost 100 characters" })
+        name: z
+          .string()
+          .min(5, { message: "Project name must have atleast 5 characters" })
+          .max(100, {
+            message: "Project name must have atmost 100 characters",
+          }),
       })
     )
     .mutation(async ({ input }) => {
@@ -118,8 +133,8 @@ const projectsRouter = createTRPCRouter({
           id: input?.id,
         },
         data: {
-          name: input?.name
-        }
+          name: input?.name,
+        },
       });
 
       if (!project) {
