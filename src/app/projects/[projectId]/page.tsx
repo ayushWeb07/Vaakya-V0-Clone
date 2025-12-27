@@ -1,7 +1,9 @@
 import { getQueryClient, trpc } from "@/modules/trpc/server";
 import { dehydrate, HydrationBoundary } from "@tanstack/react-query";
-import React, { Suspense } from "react";
+import { Suspense } from "react";
 import ProjectView from "../_components/single-project/project-view";
+import { ErrorBoundary } from 'react-error-boundary';
+import { ProjectNotFound } from "../_components/single-project/project-not-found";
 
 interface Props {
   params: Promise<{
@@ -23,13 +25,15 @@ const SingleProjectPage = async ({ params }: Props) => {
     trpc.messages.getMany.queryOptions({ projectId })
   );
 
-  return(
+  return (
     <HydrationBoundary state={dehydrate(queryClient)}>
+      <ErrorBoundary fallback={<ProjectNotFound />} >
         <Suspense fallback={<p>Loading the project...</p>}>
-            <ProjectView projectId={projectId} />
-        </Suspense>
+        <ProjectView projectId={projectId} />
+      </Suspense>
+      </ErrorBoundary>
     </HydrationBoundary>
-  )
+  );
 };
 
 export default SingleProjectPage;
