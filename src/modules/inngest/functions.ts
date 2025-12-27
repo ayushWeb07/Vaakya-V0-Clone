@@ -20,6 +20,7 @@ export const invokeAiAgent = inngest.createFunction(
     // 2: run ai agent
     const { prompt } = event.data;
     const { projectId } = event.data;
+    const {userId} = event.data
 
     const codingNetwork = createCodingNetwork(sandboxId);
     const networkResult = await codingNetwork.run(prompt);
@@ -50,10 +51,11 @@ export const invokeAiAgent = inngest.createFunction(
         // create the error message
         createdMessage = await prisma.message.create({
           data: {
-            content: "Something went wrong. Please try again later!",
+            content: summary || "Something went wrong. Please try again later!",
             role: "ASSISTANT",
             type: "ERROR",
             projectId,
+            userId
           },
         });
       } else {
@@ -67,6 +69,7 @@ export const invokeAiAgent = inngest.createFunction(
             role: "ASSISTANT",
             type: "RESULT",
             projectId,
+            userId,
 
             fragment: {
               create: {

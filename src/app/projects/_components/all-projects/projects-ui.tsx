@@ -17,8 +17,7 @@ import Image from "next/image";
 import ProjectsWrapper from "./projects-wrapper";
 import { useTRPC } from "@/modules/trpc/client";
 import { useSuspenseQuery } from "@tanstack/react-query";
-import SettingsDialogForAllProjectsPage from "./settings-dialog";
-import ChangeProjectNameForAllProjects from "./change-project-name";
+
 import Link from "next/link";
 
 // for handling filters sort by
@@ -43,6 +42,7 @@ const ProjectsUi = () => {
 
   // searching
   const [searchQuery, setSearchQuery] = useState<string>("");
+
 
   // get the projects data
   const trpc = useTRPC();
@@ -90,7 +90,7 @@ const ProjectsUi = () => {
 
   return (
     <>
-      <div className="p-20 bg-background">
+      <div className="py-35 px-20 bg-background">
         {/* search + filters */}
         <div className="mb-10">
           <h1 className="text-neutral-300 text-xl font-medium mb-5">

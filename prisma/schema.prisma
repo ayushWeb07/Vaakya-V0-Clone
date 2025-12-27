@@ -12,6 +12,7 @@ model Project {
   id           String  @id @default(uuid())
   name         String
   thumbnailUrl String?
+  userId       String
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -41,6 +42,7 @@ model Message {
   content String
   role    MessageRole
   type    MessageType
+  userId  String
 
   fragment Fragment?
 

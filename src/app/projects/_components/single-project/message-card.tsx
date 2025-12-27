@@ -264,7 +264,7 @@ const MessageCard = ({
           ) : (
             <>
               <div className="text-red-400 text-md font-medium tracking-wide">
-                {message?.content}
+                {message?.content?.replace(/<\/?task_summary>/g, "").trim()}
               </div>
 
               <CopyMessageIcon message={message?.content} />

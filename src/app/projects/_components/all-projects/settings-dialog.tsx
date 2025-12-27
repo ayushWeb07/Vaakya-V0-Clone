@@ -20,6 +20,7 @@ import { useTRPC } from "@/modules/trpc/client";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
+import { useUser } from "@clerk/nextjs";
 
 // design the ts props interface
 interface Props {
@@ -39,7 +40,9 @@ const SettingsDialogForAllProjectsPage = ({
   const trpc = useTRPC();
   const queryClient = useQueryClient();
 
-  const router = useRouter();
+  // const router = useRouter();
+  // load the user
+  const { isLoaded, user } = useUser();
 
   // handle project deletion
   const deleteProjectMutation = useMutation(
@@ -101,12 +104,11 @@ const SettingsDialogForAllProjectsPage = ({
                   <span className="text-neutral-500 text-sm font-medium">
                     Owned by
                   </span>
-                  <Link
-                    href={"/user-profile"}
-                    className="text-neutral-300 text-base font-medium underline block!"
-                  >
-                    bommanaayush07@gmail.com
-                  </Link>
+                  <p className="text-neutral-300 text-base font-medium">
+                    {isLoaded
+                      ? user?.primaryEmailAddress?.emailAddress
+                      : "Loading..."}
+                  </p>
                 </div>
               </div>
 
