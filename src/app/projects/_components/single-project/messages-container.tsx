@@ -5,7 +5,7 @@ import { useSuspenseQuery } from "@tanstack/react-query";
 import React, { useEffect, useRef } from "react";
 import MessageCard from "./message-card";
 import AddMessageForm from "./add-message-form";
-import styles from "./styles.module.css";
+import styles from "@/app/projects/_components/styles.module.css";
 import { Fragment } from "@/generated/prisma/client";
 import AIProcessingLoader from "./ai-processing-loader";
 

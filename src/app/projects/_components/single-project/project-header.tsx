@@ -29,12 +29,15 @@ import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 import ChangeProjectName from "./change-project-name";
 import SettingsDialog from "./settings-dialog";
+import { Fragment } from "@/generated/prisma/client";
 
 interface Props {
   projectId: string;
+    activeFragment: Fragment | null;
+  
 }
 
-const ProjectHeader = ({ projectId }: Props) => {
+const ProjectHeader = ({ projectId, activeFragment}: Props) => {
   const trpc = useTRPC();
 
   const [open, setOpen] = useState<boolean>(false);
@@ -79,6 +82,11 @@ const ProjectHeader = ({ projectId }: Props) => {
     window.addEventListener("keydown", handler);
     return () => window.removeEventListener("keydown", handler);
   }, []);
+
+  // open sandbox url in new tab
+  const openSandboxUrlInNewTab = () => {
+    window.open(activeFragment?.sandboxUrl, "_blank", "noopener,noreferrer");
+  };
 
   return (
     <>
@@ -126,7 +134,7 @@ const ProjectHeader = ({ projectId }: Props) => {
             </DropdownMenuItem>
 
             {/* preview */}
-            <DropdownMenuItem className="cursor-pointer">
+            <DropdownMenuItem onClick={openSandboxUrlInNewTab} className="cursor-pointer">
               <p className="inline-flex justify-start items-center gap-2">
                 <MoveUpRight />
                 Preview

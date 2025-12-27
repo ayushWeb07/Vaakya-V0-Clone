@@ -1,0 +1,95 @@
+"use client";
+import { Button } from "@/components/ui/button";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
+import { Message, Project } from "@/generated/prisma/client";
+import { Ellipsis, MoveUpRight, Settings, Trash } from "lucide-react";
+import React, { useState } from "react";
+import { formatDistanceToNow } from "date-fns";
+import Link from "next/link";
+import SettingsDialog from "../single-project/settings-dialog";
+import ChangeProjectName from "../single-project/change-project-name";
+import SettingsDialogForAllProjectsPage from "./settings-dialog";
+import ChangeProjectNameForAllProjectsPage from "./change-project-name";
+
+// design the ts interface
+interface Props {
+  project: Project & { messages: Message[] };
+}
+
+const ProjectCard = ({ project }: Props) => {
+  // for handling the settings and the change project name dialog
+  const [open, setOpen] = useState<boolean>(false);
+  const [changeProjectNameDialogOpen, setChangeProjectNameDialogOpen] =
+    useState<boolean>(false);
+
+  return (
+    <>
+      <div className="flex flex-col gap-3 group cursor-pointer">
+        {/* thumbnail image */}
+        <Link href={`/projects/${project?.id}`}>
+          <div className="overflow-hidden rounded-lg">
+            <img
+              src="https://lovable.dev/_next/image?url=https%3A%2F%2Fscreenshot2.lovable.dev%2F40d5d31c-6e42-48fb-8b59-00d80d2a4938%2Fid-preview-481d001f--76385f31-c089-4a2d-bca7-f3c964526f17.lovable.app-1766523906511.png&w=640&q=75"
+              alt="project_thumbnail"
+              className="w-full group-hover:scale-115 object-center object-cover transition-all duration-200"
+            />
+          </div>
+        </Link>
+
+        {/* project info */}
+        <div className="flex justify-between items-center">
+          <div className="flex items-center justify-start gap-3">
+            <img
+              className="w-12 h-12 rounded-full"
+              src="https://avatars.githubusercontent.com/u/100691164?v=4"
+            />
+
+            <div className="">
+              <span className="text-neutral-300 text-base font-medium">
+                {project?.name}
+              </span>
+              <p className="text-neutral-400 text-sm font-medium">
+                Edited {formatDistanceToNow(project?.updatedAt, { addSuffix: true })}
+              </p>
+            </div>
+          </div>
+
+          {/* more project options */}
+          <div className="opacity-0 group-hover:opacity-100 transition-all duration-200">
+            <Button
+              className="cursor-pointer text-neutral-400 hover:text-primary transition-all duration-300"
+              variant={"ghost"}
+              onClick={() => setOpen(true)}
+            >
+              <Settings size={20} strokeWidth={2.5} />
+            </Button>
+          </div>
+        </div>
+      </div>
+
+      <div className="absolute top-0 left-0">
+        {/* settings dialog */}
+        <SettingsDialogForAllProjectsPage
+          open={open}
+          setOpen={setOpen}
+          setChangeProjectNameDialogOpen={setChangeProjectNameDialogOpen}
+          project={project}
+        />
+
+        {/* change project name dialog */}
+        <ChangeProjectNameForAllProjectsPage
+          changeProjectNameDialogOpen={changeProjectNameDialogOpen}
+          setChangeProjectNameDialogOpen={setChangeProjectNameDialogOpen}
+          project={project}
+          setOpen={setOpen}
+        />
+      </div>
+    </>
+  );
+};
+
+export default ProjectCard;

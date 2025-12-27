@@ -88,6 +88,11 @@ const MessageCard = ({
     });
   };
 
+  // open sandbox url in new tab
+  const openSandboxUrlInNewTab = () => {
+    window.open(message?.fragment?.sandboxUrl, "_blank", "noopener,noreferrer");
+  };
+
   return (
     <>
       {message?.role === "USER" ? (
@@ -118,7 +123,7 @@ const MessageCard = ({
 
               {/* message content */}
               <div className="text-neutral-300 text-md font-medium tracking-wide leading-6">
-                {message?.content}
+                {message?.content?.replace(/<\/?task_summary>/g, "").trim()}
               </div>
 
               {/* show the fragment */}
@@ -235,12 +240,12 @@ const MessageCard = ({
                     </PopoverTrigger>
 
                     <PopoverContent className="bg-card border-2 border-border rounded-lg p-3 text-neutral-300 text-sm font-medium outline-0 flex flex-col gap-3">
-                      <div className="border-2 border-border rounded-lg bg-popover py-1 px-3 flex justify-between items-center gap-3 hover:bg-secondary transition-all duration-300 cursor-pointer text-neutral-300">
+                      <Button onClick={openSandboxUrlInNewTab} className="border-2 border-border rounded-lg bg-popover py-1 px-3 flex justify-between items-center gap-3 hover:bg-secondary transition-all duration-300 cursor-pointer text-neutral-300">
                         <p className="text-neutral-300 text-md font-medium">
                           Preview
                         </p>
                         <MoveUpRight size={20} strokeWidth={2.5} />
-                      </div>
+                      </Button>
 
                       <div className="flex justify-between items-center text-neutral-300 text-md font-medium">
                         <p>Worked for</p>

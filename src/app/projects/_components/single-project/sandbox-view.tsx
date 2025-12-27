@@ -18,7 +18,7 @@ import {
 import React, { useState, useRef } from "react";
 import { ImperativePanelHandle } from "react-resizable-panels";
 
-import ProjectCodeBlock from "./code-block/project-code-block";
+import ProjectCodeBlock from "../code-block/project-code-block";
 import { toast } from "sonner";
 
 // design the ts interface
@@ -246,7 +246,7 @@ const SandBoxView = ({ messagesPanelRef, activeFragment }: Props) => {
       )}
 
       {/* code -> show the code */}
-      {currentTab === "code" && (
+      {currentTab === "code" && activeFragment?.sandboxFiles && (
         <ProjectCodeBlock
           sandboxFiles={activeFragment?.sandboxFiles as Record<string, string>}
         />

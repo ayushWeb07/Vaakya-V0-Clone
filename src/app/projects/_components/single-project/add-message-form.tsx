@@ -11,7 +11,7 @@ import {
 } from "@tanstack/react-query";
 import { useTRPC } from "@/modules/trpc/client";
 import { Form, FormControl, FormField, FormItem } from "@/components/ui/form";
-import styles from "./styles.module.css";
+import styles from "@/app/projects/_components/styles.module.css";
 import { Button } from "@/components/ui/button";
 import { ArrowUp } from "lucide-react";
 import { cn } from "@/lib/utils";

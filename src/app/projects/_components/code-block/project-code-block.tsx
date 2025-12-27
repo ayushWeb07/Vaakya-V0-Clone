@@ -8,7 +8,7 @@ import {
   ResizablePanelGroup,
 } from "@/components/ui/resizable";
 import { ChevronDown, Download } from "lucide-react";
-import { CopyMessageIcon } from "../copy-message-icon";
+import { CopyMessageIcon } from "../single-project/copy-message-icon";
 import {
   Tooltip,
   TooltipContent,
@@ -19,7 +19,7 @@ import {
   downloadCodeFile,
   getFileExtension,
 } from "./utils";
-import styles from "../styles.module.css";
+import styles from "@/app/projects/_components/styles.module.css";
 import FileTreeView from "./file-tree-view";
 
 // ts interface
@@ -56,14 +56,14 @@ const ProjectCodeBlock = ({ sandboxFiles }: Props) => {
       className="w-full border-border"
     >
       {/* file tree structure */}
-      <ResizablePanel defaultSize={30} minSize={20} maxSize={40}>
+      <ResizablePanel defaultSize={30} className="border-r-2 border-border" >
         <FileTreeView fileTreeStructure={fileTreeStructure} selectedFile={selectedFile} handleSetSelectedFile={handleSetSelectedFile} />
       </ResizablePanel>
 
-      <ResizableHandle />
+      {/* <ResizableHandle /> */}
 
       {/* the file's code */}
-      <ResizablePanel defaultSize={70} maxSize={80} minSize={60}>
+      <ResizablePanel defaultSize={70} >
         {/* show the selected file's content */}
         {selectedFile && (
           <div className={`w-full h-full flex flex-col`}>

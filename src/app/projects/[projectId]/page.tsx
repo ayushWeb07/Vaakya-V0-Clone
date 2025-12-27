@@ -1,7 +1,7 @@
 import { getQueryClient, trpc } from "@/modules/trpc/server";
 import { dehydrate, HydrationBoundary } from "@tanstack/react-query";
 import React, { Suspense } from "react";
-import ProjectView from "../_components/project-view";
+import ProjectView from "../_components/single-project/project-view";
 
 interface Props {
   params: Promise<{

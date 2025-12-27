@@ -47,7 +47,7 @@ const ProjectView = ({ projectId }: Props) => {
               </div>
             }
           >
-            <ProjectHeader projectId={projectId} />
+            <ProjectHeader projectId={projectId} activeFragment={activeFragment} />
           </Suspense>
 
           {/* messages list */}
