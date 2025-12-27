@@ -14,6 +14,7 @@ import SettingsDialog from "../single-project/settings-dialog";
 import ChangeProjectName from "../single-project/change-project-name";
 import SettingsDialogForAllProjectsPage from "./settings-dialog";
 import ChangeProjectNameForAllProjectsPage from "./change-project-name";
+import Image from "next/image";
 
 // design the ts interface
 interface Props {
@@ -32,10 +33,12 @@ const ProjectCard = ({ project }: Props) => {
         {/* thumbnail image */}
         <Link href={`/projects/${project?.id}`}>
           <div className="overflow-hidden rounded-lg">
-            <img
-              src="https://lovable.dev/_next/image?url=https%3A%2F%2Fscreenshot2.lovable.dev%2F40d5d31c-6e42-48fb-8b59-00d80d2a4938%2Fid-preview-481d001f--76385f31-c089-4a2d-bca7-f3c964526f17.lovable.app-1766523906511.png&w=640&q=75"
+            <Image
+              src={project?.thumbnailUrl as string}
               alt="project_thumbnail"
               className="w-full group-hover:scale-115 object-center object-cover transition-all duration-200"
+              width={640}
+              height={320}
             />
           </div>
         </Link>
@@ -53,7 +56,8 @@ const ProjectCard = ({ project }: Props) => {
                 {project?.name}
               </span>
               <p className="text-neutral-400 text-sm font-medium">
-                Edited {formatDistanceToNow(project?.updatedAt, { addSuffix: true })}
+                Edited{" "}
+                {formatDistanceToNow(project?.updatedAt, { addSuffix: true })}
               </p>
             </div>
           </div>

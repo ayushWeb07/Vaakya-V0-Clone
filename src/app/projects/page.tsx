@@ -8,7 +8,7 @@ const ProjectsPage = () => {
   // prefetch the projects
   const queryClient = getQueryClient();
 
-  // 1: fetch the single project
+  // 1: fetch the projects
   void queryClient.prefetchQuery(trpc.projects.getMany.queryOptions());
 
   return (

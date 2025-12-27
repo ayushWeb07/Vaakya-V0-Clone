@@ -2,7 +2,7 @@ import { inngest } from "./client";
 import { Sandbox } from "@e2b/code-interpreter";
 import { createCodingNetwork } from "../ai-agent/agent";
 import { prisma } from "@/lib/db";
-import { getTimeWorkedFor } from "./utils";
+import { captureThumbnailAndUpload, getTimeWorkedFor } from "./utils";
 
 export const invokeAiAgent = inngest.createFunction(
   { id: "invoke-ai-agent" },
@@ -82,6 +82,25 @@ export const invokeAiAgent = inngest.createFunction(
       }
 
       return createdMessage;
+    });
+
+    // 5: update the project's thumbnail
+    await step.run("update-project-thumbnail", async () => {
+      const uploadResult = await captureThumbnailAndUpload(sandboxUrl);
+
+      // update the project's thumbnail if the upload was successful
+      if (uploadResult && uploadResult?.imageUrl) {
+        await prisma.project.update({
+          where: {
+            id: projectId,
+          },
+          data: {
+            thumbnailUrl: uploadResult.imageUrl,
+          },
+        });
+      }
+
+      return uploadResult;
     });
 
     // finalization
