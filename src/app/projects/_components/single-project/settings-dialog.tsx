@@ -47,7 +47,7 @@ const SettingsDialog = ({
         toast.success("Successfully deleted the project");
 
         // 2: navigate to the dashboard
-        router.push("/");
+        router.push("/projects");
       },
 
       onError: () => {

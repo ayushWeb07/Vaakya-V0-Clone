@@ -57,7 +57,7 @@ const ProjectHeader = ({ projectId, activeFragment}: Props) => {
       // dashboard: Ctrl + D
       if (e.ctrlKey && e.key.toLowerCase() === "d") {
         e.preventDefault();
-        router.push("/");
+        router.push("/projects");
       }
 
       // settings: Ctrl + K
@@ -107,7 +107,7 @@ const ProjectHeader = ({ projectId, activeFragment}: Props) => {
           <DropdownMenuGroup>
             {/* dashboard */}
             <DropdownMenuItem
-              onClick={() => router.push("/")}
+              onClick={() => router.push("/projects")}
               className="cursor-pointer"
             >
               <p className="inline-flex justify-start items-center gap-2">
