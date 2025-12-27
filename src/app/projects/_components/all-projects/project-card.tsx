@@ -15,6 +15,7 @@ import ChangeProjectName from "../single-project/change-project-name";
 import SettingsDialogForAllProjectsPage from "./settings-dialog";
 import ChangeProjectNameForAllProjectsPage from "./change-project-name";
 import Image from "next/image";
+import { User } from "@clerk/nextjs/server";
 
 // design the ts interface
 interface Props {
@@ -45,21 +46,14 @@ const ProjectCard = ({ project }: Props) => {
 
         {/* project info */}
         <div className="flex justify-between items-center">
-          <div className="flex items-center justify-start gap-3">
-            <img
-              className="w-12 h-12 rounded-full"
-              src="https://avatars.githubusercontent.com/u/100691164?v=4"
-            />
-
-            <div className="">
-              <span className="text-neutral-300 text-base font-medium">
-                {project?.name}
-              </span>
-              <p className="text-neutral-400 text-sm font-medium">
-                Edited{" "}
-                {formatDistanceToNow(project?.updatedAt, { addSuffix: true })}
-              </p>
-            </div>
+          <div className="">
+            <span className="text-neutral-300 text-base font-medium">
+              {project?.name}
+            </span>
+            <p className="text-neutral-400 text-sm font-medium">
+              Edited{" "}
+              {formatDistanceToNow(project?.updatedAt, { addSuffix: true })}
+            </p>
           </div>
 
           {/* more project options */}

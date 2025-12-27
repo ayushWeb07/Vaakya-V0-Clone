@@ -1,10 +1,15 @@
 import React from 'react'
 import { HeroSection } from './_components/hero-section'
+import { auth } from '@clerk/nextjs/server'
 
-const HomePage = () => {
+const HomePage = async () => {
+
+  // check if user is auth.
+  const { isAuthenticated } = await auth()
+
   return (
     <div className="bg-background">
-      <HeroSection />
+      <HeroSection isAuthenticated={isAuthenticated} />
     </div>
   )
 }

@@ -1,39 +1,37 @@
 import z from "zod";
-import { baseProcedure, createTRPCRouter } from "../trpc/init";
+import { protectedProcedure, createTRPCRouter } from "../trpc/init";
 import { prisma } from "@/lib/db";
 import { inngest } from "../inngest/client";
 
 // trpc router for handling messages
 const messagesRouter = createTRPCRouter({
-
   // get all the messages of a specfic project
-  getMany: baseProcedure
-  .input(
-    z.object({
+  getMany: protectedProcedure
+    .input(
+      z.object({
         projectId: z.string().min(1, { message: "Project ID is required" }),
+      })
+    )
+    .query(async ({ input, ctx }) => {
+      // get the messages
+      const messages = await prisma.message.findMany({
+        where: {
+          projectId: input?.projectId,
+          userId: ctx.auth.userId,
+        },
+        orderBy: {
+          updatedAt: "asc",
+        },
+        include: {
+          fragment: true,
+        },
+      });
 
-    })
-  )
-  .query(async ({input}) => {
-
-    // get the messages
-    const messages = await prisma.message.findMany({
-      where: {
-        projectId: input?.projectId
-      },
-      orderBy: {
-        updatedAt: "asc",
-      },
-      include: {
-        fragment: true,
-      },
-    });
-
-    return messages;
-  }),
+      return messages;
+    }),
 
   // create message
-  create: baseProcedure
+  create: protectedProcedure
     .input(
       z.object({
         text: z.string().min(1, { message: "Message is required" }).max(10000, {
@@ -44,7 +42,7 @@ const messagesRouter = createTRPCRouter({
         projectId: z.string().min(1, { message: "Project ID is required" }),
       })
     )
-    .mutation(async ({ input }) => {
+    .mutation(async ({ input, ctx }) => {
       // 1: create message in db
       const createdMessage = await prisma.message.create({
         data: {
@@ -52,6 +50,7 @@ const messagesRouter = createTRPCRouter({
           role: "USER",
           type: "RESULT",
           projectId: input?.projectId,
+          userId: ctx.auth.userId,
         },
       });
 
@@ -61,6 +60,7 @@ const messagesRouter = createTRPCRouter({
         data: {
           prompt: input?.text,
           projectId: input?.projectId,
+          userId: ctx.auth.userId
         },
       });
 
