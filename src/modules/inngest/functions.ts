@@ -1,8 +1,18 @@
 import { inngest } from "./client";
 import { Sandbox } from "@e2b/code-interpreter";
-import { createCodingNetwork } from "../ai-agent/agent";
+import {
+  createCodingNetwork,
+  createFragmentTitleGeneratorAgent,
+  createResponseGeneratorAgent,
+} from "../ai-agent/agent";
 import { prisma } from "@/lib/db";
 import { captureThumbnailAndUpload, getTimeWorkedFor } from "./utils";
+import { MemoryClient } from "mem0ai";
+import { createState, type Message } from "@inngest/agent-kit";
+// import { Message } from "@/generated/prisma/client";
+
+// create a mem0 client
+const memClient = new MemoryClient({ apiKey: process.env.MEM0_API_KEY! });
 
 export const invokeAiAgent = inngest.createFunction(
   { id: "invoke-ai-agent" },
@@ -17,15 +27,65 @@ export const invokeAiAgent = inngest.createFunction(
       return sbx?.sandboxId;
     });
 
-    // 2: run ai agent
+    // 2: get the constant values
     const { prompt } = event.data;
     const { projectId } = event.data;
-    const {userId} = event.data
+    const { userId } = event.data;
 
-    const codingNetwork = createCodingNetwork(sandboxId);
-    const networkResult = await codingNetwork.run(prompt);
+    // 3: get the previous messages of this project
+    const previousMessagesOfProject = await step.run(
+      "get-previous-messages",
+      async () => {
+        const formatedMessaes: Message[] = [];
 
-    // 3: connect to the created sandbox and get its url
+        // get the messages from the DB of this project
+        const messages = await prisma.message.findMany({
+          where: {
+            projectId,
+            userId,
+          },
+          orderBy: {
+            createdAt: "desc",
+          },
+          take: 10,
+        });
+
+        for (const msg of messages) {
+          formatedMessaes.push({
+            type: "text",
+            role: msg?.role?.toLowerCase() as "assistant" | "user",
+            content: msg?.content,
+          });
+        }
+
+        return formatedMessaes;
+      }
+    );
+
+    // 4: run ai agent
+
+    // create a state
+    const state = createState<{
+      summary: string;
+      files: {};
+    }>(
+      {
+        summary: "",
+        files: {},
+      },
+      {
+        messages: previousMessagesOfProject,
+      }
+    );
+
+    // create the network with the state and run it
+    const fragmentGeneratorAgent = createFragmentTitleGeneratorAgent(); // fragment generator agent
+    const responseGeneratorAgent = createResponseGeneratorAgent(); // response generator agent
+
+    const codingNetwork = createCodingNetwork(sandboxId, state);
+    const networkResult = await codingNetwork.run(prompt, { state });
+
+    // 5: connect to the created sandbox and get its url
     const sandboxUrl = await step.run("get-sandbox-url", async () => {
       // connect to sandbox
       const sbx = await Sandbox.connect(sandboxId);
@@ -37,12 +97,56 @@ export const invokeAiAgent = inngest.createFunction(
       return `http://${host}`;
     });
 
-    // 4: create a new message in the DB
-    const title = "Next.js Fragment";
+    // 6: create a new message in the DB
+    let title = "Next.js Project";
     const summary = networkResult.state.data?.summary;
+    let enhancedSummary = ""
     const files = networkResult.state.data?.files;
 
     const isError = !summary || Object.keys(files || {}).length === 0;
+
+    // get the fragment title and response from another agents
+    if (!isError) {
+      // get the fragment title from the agent
+      const { output: fragmentOutput } = await fragmentGeneratorAgent.run(
+        summary
+      );
+
+      if (
+        Array.isArray(fragmentOutput) &&
+        fragmentOutput.length > 0 &&
+        fragmentOutput[0]?.type === "text" &&
+        fragmentOutput[0]?.role === "assistant" &&
+        fragmentOutput[0]?.content
+      ) {
+        if (Array.isArray(fragmentOutput[0]?.content)) {
+          title = fragmentOutput[0]?.content?.map((m) => m?.text).join("");
+        } else {
+          title = fragmentOutput[0]?.content;
+        }
+      }
+
+      // get the enhanced response summary from the agent
+      const { output: responseOutput } = await responseGeneratorAgent.run(
+        summary
+      );
+
+      if (
+        Array.isArray(responseOutput) &&
+        responseOutput.length > 0 &&
+        responseOutput[0]?.type === "text" &&
+        responseOutput[0]?.role === "assistant" &&
+        responseOutput[0]?.content
+      ) {
+        if (Array.isArray(responseOutput[0]?.content)) {
+          enhancedSummary = responseOutput[0]?.content?.map((m) => m?.text).join("");
+        } else {
+          enhancedSummary = responseOutput[0]?.content;
+        }
+      }
+
+      
+    }
 
     await step.run("save-result-in-db", async () => {
       let createdMessage = null;
@@ -55,7 +159,7 @@ export const invokeAiAgent = inngest.createFunction(
             role: "ASSISTANT",
             type: "ERROR",
             projectId,
-            userId
+            userId,
           },
         });
       } else {
@@ -65,7 +169,7 @@ export const invokeAiAgent = inngest.createFunction(
         // create the result message
         createdMessage = await prisma.message.create({
           data: {
-            content: summary,
+            content: enhancedSummary.length > 0 ? enhancedSummary : summary,
             role: "ASSISTANT",
             type: "RESULT",
             projectId,
@@ -76,7 +180,7 @@ export const invokeAiAgent = inngest.createFunction(
                 title,
                 sandboxUrl,
                 sandboxFiles: files,
-                creditsSpent: Math.floor(Math.random() * (15 - 5 + 1)) + 5, // !ADD PROPER CREDIT SYSTEM
+                creditsSpent: 1,
                 workedFor: timeWorkedFor,
               },
             },
@@ -87,7 +191,7 @@ export const invokeAiAgent = inngest.createFunction(
       return createdMessage;
     });
 
-    // 5: update the project's thumbnail
+    // 7: update the project's thumbnail
     await step.run("update-project-thumbnail", async () => {
       const uploadResult = await captureThumbnailAndUpload(sandboxUrl);
 

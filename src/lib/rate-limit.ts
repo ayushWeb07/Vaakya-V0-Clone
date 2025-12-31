@@ -20,10 +20,10 @@ const apiLimiter = async () => {
   const hasProPlan = has({ plan: "pro_user" });
   const hasProPlusPlan = has({ plan: "pro_plus_user" });
 
-  if (hasProPlan) {
-    points = PRO_POINTS;
-  } else if (hasProPlusPlan) {
+  if (hasProPlusPlan) {
     points = PRO_PLUS_POINTS;
+  } else if (hasProPlan) {
+    points = PRO_POINTS;
   }
 
   const limiter = new RateLimiterPrisma({
@@ -57,7 +57,6 @@ const consumePoints = async () => {
       msBeforeNext: result.msBeforeNext,
     };
   }
-
 };
 
 // get usage status
