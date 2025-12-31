@@ -60,13 +60,19 @@ const AddProjectForm = ({ isAuthenticated }: Props) => {
         // 1: reset the form
         form.reset();
 
-        // 2: invalidate the messages
+        // 2: invalidate the projects
         queryClient.invalidateQueries(trpc.projects.getMany.queryOptions());
 
-        // 3: navigate to that project
+        // 3: invalidate the usage tracker
+        queryClient.invalidateQueries(trpc.usage.getStatus.queryOptions());
+
+        // 4: invalidate the hasProPlusPlan
+        queryClient.invalidateQueries(trpc.usage.hasProPlusPlan.queryOptions());
+
+        // 5: navigate to that project
         router.push(`/projects/${data?.id}`);
 
-        // 4: toast the success message
+        // 6: toast the success message
         toast.success("Successfully created the project");
       },
 

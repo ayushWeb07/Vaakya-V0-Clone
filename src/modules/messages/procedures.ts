@@ -2,6 +2,8 @@ import z from "zod";
 import { protectedProcedure, createTRPCRouter } from "../trpc/init";
 import { prisma } from "@/lib/db";
 import { inngest } from "../inngest/client";
+import { consumePoints } from "@/lib/rate-limit";
+import { TRPCError } from "@trpc/server";
 
 // trpc router for handling messages
 const messagesRouter = createTRPCRouter({
@@ -43,7 +45,26 @@ const messagesRouter = createTRPCRouter({
       })
     )
     .mutation(async ({ input, ctx }) => {
-      // 1: create message in db
+      // 1: consume the credits
+      try {
+        await consumePoints();
+      } catch (error) {
+        if (error instanceof Error) {
+          // something went wrong
+          throw new TRPCError({
+            code: "BAD_REQUEST",
+            message: error?.message || "Something went wrong",
+          });
+        } else {
+          // credits exhausted
+          throw new TRPCError({
+            code: "TOO_MANY_REQUESTS",
+            message: "You've ran out of free credits. Please upgrade!",
+          });
+        }
+      }
+
+      // 2: create message in db
       const createdMessage = await prisma.message.create({
         data: {
           content: input?.text,
@@ -54,13 +75,13 @@ const messagesRouter = createTRPCRouter({
         },
       });
 
-      // 2: start the inngest event
+      // 3: start the inngest event
       await inngest.send({
         name: "ai-agent/invoke",
         data: {
           prompt: input?.text,
           projectId: input?.projectId,
-          userId: ctx.auth.userId
+          userId: ctx.auth.userId,
         },
       });
 

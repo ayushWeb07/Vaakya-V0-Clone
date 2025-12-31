@@ -71,3 +71,11 @@ model Fragment {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
+
+
+// usage schema -> for handling the credits 
+model Usage {
+  key String @id
+  points Int
+  expire DateTime?
+}
