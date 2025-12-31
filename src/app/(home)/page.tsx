@@ -8,7 +8,7 @@ const HomePage = async () => {
   const { isAuthenticated } = await auth()
 
   return (
-    <div className="bg-background">
+    <div className="bg-background min-h-screen">
       <HeroSection isAuthenticated={isAuthenticated} />
     </div>
   )

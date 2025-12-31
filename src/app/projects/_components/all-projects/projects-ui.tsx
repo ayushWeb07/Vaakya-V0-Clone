@@ -90,7 +90,7 @@ const ProjectsUi = () => {
 
   return (
     <>
-      <div className="py-35 px-20 bg-background">
+      <div className="py-35 px-20 bg-background min-h-screen">
         {/* search + filters */}
         <div className="mb-10">
           <h1 className="text-neutral-300 text-xl font-medium mb-5">

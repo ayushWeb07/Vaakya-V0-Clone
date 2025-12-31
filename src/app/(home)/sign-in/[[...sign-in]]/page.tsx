@@ -4,7 +4,7 @@ import { dark } from "@clerk/themes";
 
 export default function Page() {
   return (
-    <div className="bg-background flex justify-center items-center h-screen">
+    <div className="bg-background flex justify-center items-center min-h-screen">
       <SignIn appearance={{theme: dark}} />
     </div>
   );
