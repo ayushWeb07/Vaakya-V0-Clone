@@ -4,6 +4,7 @@ import { dehydrate, HydrationBoundary } from "@tanstack/react-query";
 import { Suspense } from "react";
 import Navbar from "../(home)/_components/navbar";
 import { ErrorBoundary } from "react-error-boundary";
+import { Footer } from "../(home)/_components/footer";
 
 const ProjectsPage = async () => {
   // prefetch the projects
@@ -18,7 +19,7 @@ const ProjectsPage = async () => {
 
       <ErrorBoundary
         fallback={
-          <div className="py-35 px-20 bg-background">
+          <div className="py-35 px-20 bg-background min-h-screen">
             <p className="text-red-500 text-xl font-medium mb-5">
               Error while loading the projects...
             </p>
@@ -27,7 +28,7 @@ const ProjectsPage = async () => {
       >
         <Suspense
           fallback={
-            <div className="py-35 px-20 bg-background">
+            <div className="py-35 px-20 bg-background min-h-screen">
               <p className="text-neutral-300 text-xl font-medium mb-5">
                 Loading the projects...
               </p>
@@ -37,6 +38,8 @@ const ProjectsPage = async () => {
           <ProjectsUi />
         </Suspense>
       </ErrorBoundary>
+
+      <Footer />
     </HydrationBoundary>
   );
 };

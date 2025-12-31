@@ -7,11 +7,11 @@ import {
   SignUpButton,
   UserButton,
 } from "@clerk/nextjs";
-import { KayakIcon } from "lucide-react";
 import React, { useEffect, useState } from "react";
 import { dark } from "@clerk/themes";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import Image from "next/image";
 
 const Navbar = () => {
   // handle the scrolling behaviour
@@ -37,7 +37,13 @@ const Navbar = () => {
     >
       {/* logo */}
       <Link href={"/"}>
-        <KayakIcon size={35} className="text-white" />
+        <Image
+          src={"logo.svg"}
+          width={40}
+          height={40}
+          alt="Logo"
+          className="hover:transform hover:rotate-12 transition-all duration-300 hover:shadow-[0_0_20px_rgba(255,255,255,0.08)]"
+        />
       </Link>
 
       {/* menu items */}

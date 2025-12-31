@@ -4,7 +4,7 @@ import { dark } from "@clerk/themes";
 
 export default function PricingPage() {
   return (
-    <div className="relative overflow-hidden bg-background py-40">
+    <div className="relative overflow-hidden bg-background py-40 min-h-screen">
       <Spotlight />
       <div className="mx-auto w-6xl px-6">
         {/* Header */}
