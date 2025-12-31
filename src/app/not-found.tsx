@@ -1,32 +1,34 @@
 "use client";
 
-import { ArrowRight, Home } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import Link from "next/link";
 import { Spotlight } from "@/components/ui/spotlight-new";
+import { Home, ArrowRight, Search } from "lucide-react";
+import Link from "next/link";
 
-const ProjectNotFound = () => {
+export default function NotFound() {
   return (
     <div className="relative flex min-h-screen items-center justify-center bg-background px-6 py-40 overflow-hidden">
+        
       <Spotlight />
 
       <div className="w-md rounded-2xl border border-border bg-card/70 p-8 shadow-2xl backdrop-blur">
-        {/* icon / accent */}
+        {/* icon */}
         <div className="mb-6 flex h-12 w-12 items-center justify-center rounded-xl bg-primary/10 text-primary">
-          <ArrowRight className="h-6 w-6" />
+          <Search className="h-6 w-6" />
         </div>
 
-        {/* heading */}
+        {/* 404 */}
+        <p className="mb-1 text-sm font-medium text-primary">404</p>
         <h1 className="mb-2 text-2xl font-semibold tracking-tight">
-          Project Not Found
+          Page not found
         </h1>
 
         <p className="mb-8 text-sm leading-relaxed text-muted-foreground">
-          Oops! We couldn’t find the project you’re looking for. It may have
-          been removed or the link is broken.
+          The page you’re looking for doesn’t exist, was moved, or is no longer
+          available.
         </p>
 
-        {/* CTAs */}
+        {/* actions */}
         <div className="flex gap-3">
           <Button
             asChild
@@ -50,14 +52,11 @@ const ProjectNotFound = () => {
           </Button>
         </div>
 
-        {/* subtle footer */}
+        {/* footer */}
         <p className="mt-6 text-center text-xs text-muted-foreground">
-          You’re safe — nothing’s broken.
+          Lost? Let’s get you back on track.
         </p>
       </div>
     </div>
   );
 }
-
-
-export {ProjectNotFound}
