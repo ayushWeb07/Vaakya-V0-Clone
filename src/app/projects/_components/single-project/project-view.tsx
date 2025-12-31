@@ -15,6 +15,7 @@ import ProjectHeader from "./project-header";
 import SandBoxView from "./sandbox-view";
 import SandBoxLoading from "./sandbox-loading";
 import { ImperativePanelHandle } from "react-resizable-panels";
+import { ErrorBoundary } from "react-error-boundary";
 
 interface Props {
   projectId: string;
@@ -25,12 +26,11 @@ const ProjectView = ({ projectId }: Props) => {
 
   const [activeFragment, setActiveFragment] = useState<Fragment | null>(null);
 
-  const messagesPanelRef = useRef<ImperativePanelHandle>(null)
+  const messagesPanelRef = useRef<ImperativePanelHandle>(null);
 
   return (
     <div className="h-screen">
       <ResizablePanelGroup direction="horizontal">
-
         {/* project header + messages here */}
         <ResizablePanel
           defaultSize={30}
@@ -48,7 +48,10 @@ const ProjectView = ({ projectId }: Props) => {
               </div>
             }
           >
-            <ProjectHeader projectId={projectId} activeFragment={activeFragment} />
+            <ProjectHeader
+              projectId={projectId}
+              activeFragment={activeFragment}
+            />
           </Suspense>
 
           {/* messages list */}
@@ -70,9 +73,14 @@ const ProjectView = ({ projectId }: Props) => {
         {/* <ResizableHandle withHandle /> */}
 
         {/* sandbox view here */}
-        <ResizablePanel defaultSize={70} maxSize={100} >
+        <ResizablePanel defaultSize={70} maxSize={100}>
           {activeFragment ? (
-            <SandBoxView messagesPanelRef={messagesPanelRef as RefObject<ImperativePanelHandle>} activeFragment={activeFragment} />
+            <SandBoxView
+              messagesPanelRef={
+                messagesPanelRef as RefObject<ImperativePanelHandle>
+              }
+              activeFragment={activeFragment}
+            />
           ) : (
             <SandBoxLoading />
           )}

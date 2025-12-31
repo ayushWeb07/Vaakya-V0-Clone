@@ -58,7 +58,7 @@ export const invokeAiAgent = inngest.createFunction(
           });
         }
 
-        return formatedMessaes;
+        return formatedMessaes.reverse();
       }
     );
 

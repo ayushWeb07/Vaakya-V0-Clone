@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { Spotlight } from "@/components/ui/spotlight-new";
 
-const ProjectNotFound = () => {
+export default function ErrorPage() {
   return (
     <div className="relative flex min-h-screen items-center justify-center bg-background px-6 py-40 overflow-hidden">
       <Spotlight />
@@ -18,12 +18,12 @@ const ProjectNotFound = () => {
 
         {/* heading */}
         <h1 className="mb-2 text-2xl font-semibold tracking-tight">
-          Project Not Found
+          This page isn’t available
         </h1>
 
         <p className="mb-8 text-sm leading-relaxed text-muted-foreground">
-          Oops! We couldn’t find the project you’re looking for. It may have
-          been removed or the link is broken.
+          The page you’re trying to access doesn’t exist or is temporarily
+          unavailable.
         </p>
 
         {/* CTAs */}
@@ -58,6 +58,3 @@ const ProjectNotFound = () => {
     </div>
   );
 }
-
-
-export {ProjectNotFound}
