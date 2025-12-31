@@ -5,6 +5,7 @@ import { inngest } from "../inngest/client";
 import { generateSlug } from "random-word-slugs";
 import { TRPCError } from "@trpc/server";
 import { redirect } from "next/navigation";
+import { consumePoints } from "@/lib/rate-limit";
 
 // trpc router for handling projects
 const projectsRouter = createTRPCRouter({
@@ -64,7 +65,26 @@ const projectsRouter = createTRPCRouter({
       })
     )
     .mutation(async ({ input, ctx }) => {
-      // 1: create project in the db
+      // 1: consume the credits
+      try {
+        await consumePoints();
+      } catch (error) {
+        if (error instanceof Error) {
+          // something went wrong
+          throw new TRPCError({
+            code: "BAD_REQUEST",
+            message: error?.message || "Something went wrong",
+          });
+        } else {
+          // credits exhausted
+          throw new TRPCError({
+            code: "TOO_MANY_REQUESTS",
+            message: "You've ran out of free credits. Please upgrade!",
+          });
+        }
+      }
+
+      // 2: create project in the db
       const createdProject = await prisma.project.create({
         data: {
           name: generateSlug(4, { format: "kebab" }),
@@ -83,7 +103,7 @@ const projectsRouter = createTRPCRouter({
         },
       });
 
-      // 2: start the inngest event
+      // 3: start the inngest event
       await inngest.send({
         name: "ai-agent/invoke",
         data: {

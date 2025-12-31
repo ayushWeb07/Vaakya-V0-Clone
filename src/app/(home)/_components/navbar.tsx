@@ -29,10 +29,10 @@ const Navbar = () => {
   const pathname = usePathname();
   return (
     <div
-      className={`w-full fixed top-0 left-0 flex justify-between items-center px-20 py-7 z-10 transition-all duration-300 border-b-2 border-transparent ${
+      className={`w-full fixed top-0 left-0 flex justify-between items-center px-20 py-7 z-5 transition-all duration-300 border-b-2 ${
         scrolled
-          ? "bg-card border-border!"
-          : "bg-linear-to-b from-background/75 to-transparent"
+          ? "bg-card border-b-border!"
+          : "bg-linear-to-b from-background/75 to-transparent border-b-transparent"
       }`}
     >
       {/* logo */}
@@ -51,6 +51,7 @@ const Navbar = () => {
           >
             Home
           </Link>
+
           <Link
             className={`text-neutral-500 text-base font-medium hover:text-white transition-all duration-200 ${
               pathname === "/projects" && "text-white!"
@@ -58,6 +59,15 @@ const Navbar = () => {
             href={"/projects"}
           >
             Projects
+          </Link>
+
+          <Link
+            className={`text-neutral-500 text-base font-medium hover:text-white transition-all duration-200 ${
+              pathname === "/pricing" && "text-white!"
+            }`}
+            href={"/pricing"}
+          >
+            Pricing
           </Link>
         </div>
       </SignedIn>

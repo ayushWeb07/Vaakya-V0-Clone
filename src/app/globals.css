@@ -171,6 +171,10 @@
     box-sizing: border-box;
     scroll-behavior: smooth;
   }
+
+  .cl-drawerRoot {
+    z-index: 20 !important;
+  }
 }
 
 @keyframes blink {

@@ -30,15 +30,6 @@ const MessagesContainer = ({
   // create a simple ref for scrolling to the bottom of the messages
   const bottomMessagesScrollRef = useRef<HTMLDivElement>(null);
 
-  // useEffect(() => {
-  //   // get the latest ai message and set its fragment (if present) as the active fragment
-  //   const lastAiMessage = messages.findLast(
-  //     (message) => message?.role === "ASSISTANT" && message?.fragment
-  //   );
-
-  //   setActiveFragment(lastAiMessage?.fragment as Fragment);
-  // }, [messages]);
-
   // run when there's a change in the messages list
   useEffect(() => {
     // last message is by user means -> ai is generating the response currently

@@ -18,11 +18,11 @@ import { cn } from "@/lib/utils";
 import { Spinner } from "@/components/ui/spinner";
 import { toast } from "sonner";
 import { Fragment } from "@/generated/prisma/client";
+import TrackUsage from "./track-usage";
 
 interface Props {
   projectId: string;
-    setActiveFragment: React.Dispatch<React.SetStateAction<Fragment | null>>;
-  
+  setActiveFragment: React.Dispatch<React.SetStateAction<Fragment | null>>;
 }
 
 const formSchema = z.object({
@@ -55,8 +55,14 @@ const AddMessageForm = ({ projectId, setActiveFragment }: Props) => {
           trpc.messages.getMany.queryOptions({ projectId })
         );
 
-        // 3: set active fragment to null
-        setActiveFragment(null)
+        // 3: invalidate the usage tracker
+        queryClient.invalidateQueries(trpc.usage.getStatus.queryOptions());
+
+        // 4: invalidate the hasProPlusPlan
+        queryClient.invalidateQueries(trpc.usage.hasProPlusPlan.queryOptions());
+
+        // 5: set active fragment to null
+        setActiveFragment(null);
       },
 
       onError: (data) => {
@@ -73,8 +79,27 @@ const AddMessageForm = ({ projectId, setActiveFragment }: Props) => {
     await addMessageMutation.mutateAsync({ text: values.text, projectId });
   };
 
+  // load the usage tracker
+  const { data: usageTracker } = useSuspenseQuery(
+    trpc.usage.getStatus.queryOptions()
+  );
+
+  const { data: hasProPlusPlan } = useSuspenseQuery(
+    trpc.usage.hasProPlusPlan.queryOptions()
+  );
+
   return (
     <Form {...form}>
+      {/* show the usage tracker */}
+      {usageTracker && (
+        <TrackUsage
+          points={usageTracker.remainingPoints}
+          msBeforeNext={usageTracker.msBeforeNext}
+          hasProPlusPlan={hasProPlusPlan}
+        />
+      )}
+
+      {/* show the form */}
       <form
         className="bg-card border-2 border-border rounded-lg p-3 flex flex-col gap-5 justify-center items-end"
         onSubmit={form.handleSubmit(onSubmit)}
