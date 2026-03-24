@@ -168,7 +168,7 @@ const SettingsDialogForAllProjectsPage = ({
                   <span className="text-neutral-500 text-sm font-medium">
                     Credits used
                   </span>
-                  <p className="text-neutral-300 text-base font-medium">150</p>
+                  <p className="text-neutral-300 text-base font-medium">{project?.messages?.length} credits (1 credit / message)</p>
                 </div>
               </div>
             </div>
