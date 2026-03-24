@@ -68,7 +68,7 @@ const MessageCard = ({
         queryClient.invalidateQueries(
           trpc.messages.getMany.queryOptions({
             projectId: message?.projectId as string,
-          })
+          }),
         );
 
         // 2: show toast
@@ -78,7 +78,7 @@ const MessageCard = ({
       onError: () => {
         toast.error("Something went wrong while updating the message status!");
       },
-    })
+    }),
   );
 
   const handleHelpfulStateToggle = async (state: IS_MESSAGE_HELPFUL) => {
@@ -122,7 +122,7 @@ const MessageCard = ({
               )}
 
               {/* message content */}
-              <div className="text-neutral-300 text-md font-medium tracking-wide leading-6">
+              <div className="text-neutral-300 text-md font-medium tracking-wide leading-6 whitespace-pre-line">
                 {message?.content?.replace(/<\/?task_summary>/g, "").trim()}
               </div>
 
@@ -137,7 +137,7 @@ const MessageCard = ({
                       className={cn(
                         "border-2 border-border rounded-lg bg-popover p-3 text-neutral-300 text-md font-medium flex justify-start items-start gap-3 hover:bg-secondary transition-all duration-300 cursor-pointer",
                         isActiveFragment &&
-                          "bg-neutral-300 text-destructive-foreground hover:bg-neutral-300"
+                          "bg-neutral-300 text-destructive-foreground hover:bg-neutral-300",
                       )}
                     >
                       <Code size={15} strokeWidth={2} />
@@ -146,7 +146,7 @@ const MessageCard = ({
                         <p
                           className={cn(
                             "text-neutral-300 text-sm font-bold flex justify-between items-center gap-3",
-                            isActiveFragment && "text-neutral-800"
+                            isActiveFragment && "text-neutral-800",
                           )}
                         >
                           {message?.fragment?.title}
@@ -156,7 +156,7 @@ const MessageCard = ({
                         <span
                           className={cn(
                             "text-neutral-400 text-sm font-medium",
-                            isActiveFragment && "text-neutral-800"
+                            isActiveFragment && "text-neutral-800",
                           )}
                         >
                           {isActiveFragment ? "Previewing" : "Preview"} this
@@ -240,7 +240,10 @@ const MessageCard = ({
                     </PopoverTrigger>
 
                     <PopoverContent className="bg-card border-2 border-border rounded-lg p-3 text-neutral-300 text-sm font-medium outline-0 flex flex-col gap-3">
-                      <Button onClick={openSandboxUrlInNewTab} className="border-2 border-border rounded-lg bg-popover py-1 px-3 flex justify-between items-center gap-3 hover:bg-secondary transition-all duration-300 cursor-pointer text-neutral-300">
+                      <Button
+                        onClick={openSandboxUrlInNewTab}
+                        className="border-2 border-border rounded-lg bg-popover py-1 px-3 flex justify-between items-center gap-3 hover:bg-secondary transition-all duration-300 cursor-pointer text-neutral-300"
+                      >
                         <p className="text-neutral-300 text-md font-medium">
                           Preview
                         </p>
