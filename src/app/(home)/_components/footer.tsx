@@ -24,13 +24,11 @@ export function Footer() {
         {/* Credit */}
         <p className="text-base text-muted-foreground">
           Coded by{" "}
-          <a
-            href="https://x.com/AyushBommana"
-            target="_blank"
+          <span
             className="font-medium text-foreground"
           >
-            Ayush
-          </a>
+            Ctrl Alt Esc
+          </span>
         </p>
       </div>
     </footer>
