@@ -42,7 +42,7 @@ const Navbar = () => {
           width={40}
           height={40}
           alt="Logo"
-          className="hover:transform hover:rotate-12 transition-all duration-300 hover:shadow-[0_0_20px_rgba(255,255,255,0.08)]"
+          className="hover:transform hover:rotate-45 transition-all duration-300 hover:shadow-[0_0_20px_rgba(255,255,255,0.08)]"
         />
       </Link>
 
