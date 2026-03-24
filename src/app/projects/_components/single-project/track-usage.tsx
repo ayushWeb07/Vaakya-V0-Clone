@@ -42,10 +42,10 @@ const TrackUsage = ({ points, msBeforeNext, hasProPlusPlan }: Props) => {
       <div className="flex items-center gap-3">
         <div className="relative flex h-9 w-9 items-center justify-center">
           {/* Glow */}
-          <div className="absolute inset-0 rounded-lg bg-primary/20 blur-md" />
+          <div className="absolute inset-0 rounded-lg bg-white/20 blur-md" />
 
           {/* Icon container */}
-          <div className="relative flex h-9 w-9 items-center justify-center rounded-lg bg-primary/10 text-primary shadow-sm">
+          <div className="relative flex h-9 w-9 items-center justify-center rounded-lg bg-muted border-border border-2">
             ⚡
           </div>
         </div>
