@@ -1,36 +1,128 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 🚀 Vaakya – Prompt-to-App Builder (GPT-5.4 Powered)
 
-## Getting Started
+Vaakya is an AI-powered platform that transforms simple text prompts into fully functional web applications. Built using GPT-5.4, it enables developers, creators, and non-technical users to generate, edit, and deploy apps instantly—without the usual complexity of traditional development workflows.
 
-First, run the development server:
+---
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## ✨ Features
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+- 🧠 **Prompt → Application**
+  - Describe your idea in plain English and Vaakya builds it for you.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+- ⚡ **Instant Code Generation**
+  - Generates clean, production-ready frontend (and optionally backend) code.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+- 🎯 **Prebuilt Templates**
+  - Quickly generate apps like:
+    - Netflix clone  
+    - Admin dashboard  
+    - Kanban board  
+    - File manager  
+    - YouTube clone  
+    - Store page  
+    - Airbnb clone  
+    - Spotify clone  
 
-## Learn More
+- 🔁 **Iterative Editing**
+  - Refine your app by simply updating your prompt.
 
-To learn more about Next.js, take a look at the following resources:
+- 🧩 **Modular Architecture**
+  - Easily extend or customize generated apps.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+- 📱 **Responsive UI**
+  - Modern, mobile-friendly interfaces using Tailwind + component systems.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+---
 
-## Deploy on Vercel
+## 🛠️ Tech Stack
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+- **Framework:** Next.js  
+- **Styling:** Tailwind CSS, Aceternity UI, ShadCN UI  
+- **Backend & ORM:** Prisma  
+- **Database:** Neon (Serverless Postgres)  
+- **Background Jobs & Workflows:** Inngest  
+- **AI Engine:** GPT-5.4  
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+---
+
+## 💡 How It Works
+
+1. Enter a prompt like:
+   > "Build a kanban board with drag and drop and task persistence"
+
+2. Vaakya:
+   - Parses intent  
+   - Plans architecture  
+   - Generates UI + logic  
+   - Outputs a working app  
+
+3. Iterate:
+   > "Add dark mode and user authentication"
+
+---
+
+## 🧠 Core Idea
+
+Vaakya simplifies development into a **conversation**.
+
+Instead of:
+- Designing → Coding → Debugging → Deploying  
+
+You now:
+- **Describe → Generate → Refine → Ship**
+
+---
+
+## 📸 UI Overview
+
+- Minimal, dark-themed interface  
+- Prompt input as the core interaction  
+- Quick-start buttons for common apps  
+- Real-time generation feedback  
+
+---
+
+## 🔥 Competitive Edge
+
+Unlike traditional dev tools or low-code platforms:
+- No steep learning curve  
+- No multiple toolchains  
+- Fully end-to-end (idea → execution)  
+- Built for both beginners and advanced builders  
+
+---
+
+## 🧪 Future Improvements
+
+- 🧠 Multi-agent reasoning (planner, coder, validator)  
+- 🔗 RAG for context-aware app generation  
+- 🛠️ Plugin/tool integrations  
+- 🌍 One-click deployment  
+- 👥 Collaboration features  
+
+---
+
+## 🤝 Contributing
+
+Contributions are welcome! Feel free to:
+- Open issues  
+- Submit PRs  
+- Suggest features  
+
+---
+
+## 📄 License
+
+MIT License  
+
+---
+
+## 👨‍💻 Author
+
+Built with ❤️ by Ctrl Alt Esc  
+
+---
+
+## ⭐ Support
+
+If you like this project, consider giving it a star ⭐ on GitHub!
