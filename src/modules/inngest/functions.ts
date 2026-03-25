@@ -22,6 +22,7 @@ export const invokeAiAgent = inngest.createFunction(
     const sandboxId = await step.run("get-sandbox-id", async () => {
       // create a sandbox
       const sbx = await Sandbox.create("f1moj4g4fa2pm1e2zu4v");
+      await sbx.setTimeout(1_800_000)
 
       // return the sandbox id
       return sbx?.sandboxId;
