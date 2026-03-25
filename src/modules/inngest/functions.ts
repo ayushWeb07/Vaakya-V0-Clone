@@ -36,7 +36,7 @@ export const invokeAiAgent = inngest.createFunction(
     const previousMessagesOfProject = await step.run(
       "get-previous-messages",
       async () => {
-        const formatedMessaes: Message[] = [];
+        const formatedMessages: Message[] = [];
 
         // get the messages from the DB of this project
         const messages = await prisma.message.findMany({
@@ -51,14 +51,14 @@ export const invokeAiAgent = inngest.createFunction(
         });
 
         for (const msg of messages) {
-          formatedMessaes.push({
+          formatedMessages.push({
             type: "text",
             role: msg?.role?.toLowerCase() as "assistant" | "user",
             content: msg?.content,
           });
         }
 
-        return formatedMessaes.reverse();
+        return formatedMessages.reverse();
       }
     );
 
