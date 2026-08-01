@@ -33,13 +33,16 @@ const ProjectCard = ({ project }: Props) => {
       <div className="flex flex-col gap-3 group cursor-pointer">
         {/* thumbnail image */}
         <Link href={`/projects/${project?.id}`}>
-          <div className="overflow-hidden rounded-lg">
+          <div className="relative w-full aspect-[2/1] overflow-hidden rounded-lg">
             <Image
-              src={project?.thumbnailUrl as string}
-              alt="project_thumbnail"
-              className="w-full group-hover:scale-115 object-center object-cover transition-all duration-200"
-              width={640}
-              height={320}
+                src={
+                    project?.thumbnailUrl ||
+                    "https://developers.elementor.com/docs/assets/img/elementor-placeholder-image.png"
+                }
+                alt="project_thumbnail"
+                fill
+                sizes="(max-width: 768px) 100vw, 33vw"
+                className="object-cover object-center group-hover:scale-115 transition-all duration-200"
             />
           </div>
         </Link>

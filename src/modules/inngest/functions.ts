@@ -15,8 +15,10 @@ import { createState, type Message } from "@inngest/agent-kit";
 const memClient = new MemoryClient({ apiKey: process.env.MEM0_API_KEY! });
 
 export const invokeAiAgent = inngest.createFunction(
-  { id: "invoke-ai-agent" },
-  { event: "ai-agent/invoke" },
+  {
+    id: "invoke-ai-agent",
+    triggers: { event: "ai-agent/invoke" },
+  },
   async ({ event, step }) => {
     // 1: create sandbox and get id
     const sandboxId = await step.run("get-sandbox-id", async () => {

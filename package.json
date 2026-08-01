@@ -38,7 +38,7 @@
     "clsx": "^2.1.1",
     "date-fns": "^4.1.0",
     "imagekit": "^6.0.0",
-    "inngest": "^3.48.1",
+    "inngest": "^4.14.0",
     "lucide-react": "^0.562.0",
     "mem0ai": "^2.2.0",
     "motion": "^12.23.26",

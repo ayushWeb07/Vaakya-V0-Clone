@@ -1,4 +1,4 @@
 import { Inngest } from "inngest";
 
 // Create a client to send and receive events
-export const inngest = new Inngest({ id: "vaakya-dev" });
+export const inngest = new Inngest({ id: "vaakya-dev", isDev: true, });

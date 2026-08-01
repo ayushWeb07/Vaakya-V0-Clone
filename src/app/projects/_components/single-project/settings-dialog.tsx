@@ -95,17 +95,17 @@ const SettingsDialog = ({
                 </div>
 
                 {/* owner  */}
-                <div>
-                  <span className="text-neutral-500 text-sm font-medium">
-                    Owned by
-                  </span>
-                  <Link
-                    href={"/user-profile"}
-                    className="text-neutral-300 text-base font-medium underline block!"
-                  >
-                    bommanaayush07@gmail.com
-                  </Link>
-                </div>
+                {/*<div>*/}
+                {/*  <span className="text-neutral-500 text-sm font-medium">*/}
+                {/*    Owned by*/}
+                {/*  </span>*/}
+                {/*  <Link*/}
+                {/*    href={"/user-profile"}*/}
+                {/*    className="text-neutral-300 text-base font-medium underline block!"*/}
+                {/*  >*/}
+                {/*    bommanaayush07@gmail.com*/}
+                {/*  </Link>*/}
+                {/*</div>*/}
               </div>
 
               <div className="w-full flex justify-between items-start">
